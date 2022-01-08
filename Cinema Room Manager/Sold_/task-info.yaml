@@ -1,0 +1,190 @@
+type: edu
+custom_name: Sold!
+files:
+- name: src/cinema/Cinema.java
+  visible: true
+  text: |-
+    package cinema;
+
+    public class Cinema {
+
+        public static void main(String[] args) {
+            // Write your code here
+        }
+    }
+  learner_created: false
+- name: test/CinemaTests.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testing.TestedProgram;
+
+    public class CinemaTests extends StageTest<String> {
+
+        @DynamicTestingMethod
+        CheckResult test1_testOutput() {
+
+            TestedProgram program = new TestedProgram();
+            String output = program.start();
+
+            if (!output.toLowerCase().contains("enter the number of rows")) {
+                return CheckResult.wrong("At the beginning your program should ask for entering the number of rows.\n" +
+                    "Your output should contain 'Enter the number of rows:'");
+            }
+
+            output = program.execute("4");
+
+            if (!output.toLowerCase().contains("enter the number of seats in each row")) {
+                return CheckResult.wrong("After entering the number of rows your program should ask for entering" +
+                    " the number of seats in each row.\n" +
+                    "Your output should contain 'Enter the number of seats in each row'");
+            }
+
+            output = program.execute("5");
+
+            if (!output.toLowerCase().contains("total income:")) {
+                return CheckResult.wrong("After entering the number of seats in each row your program should print total income.\n" +
+                    "Your output should contain 'Total income:'");
+            }
+
+            if (!output.contains("$200")) {
+                return CheckResult.wrong("You miscalculated the income.\nCorrect one is $200");
+            }
+
+            return CheckResult.correct();
+        }
+
+        @DynamicTestingMethod
+        CheckResult test2_testIncomeCalculating() {
+
+            TestedProgram program = new TestedProgram();
+            program.start();
+
+            String output = program.execute("8\n9");
+
+            if (!output.contains("$648")) {
+                return CheckResult.wrong("You miscalculated the income.\nCorrect one is $648");
+            }
+
+            program.stop();
+
+            program = new TestedProgram();
+            program.start();
+
+            output = program.execute("9\n7");
+
+            if (!output.contains("$560")) {
+                return CheckResult.wrong("You miscalculated the income.\nCorrect one is $560");
+            }
+
+            program.stop();
+
+            program = new TestedProgram();
+            program.start();
+
+            output = program.execute("7\n9");
+
+            if (!output.contains("$558")) {
+                return CheckResult.wrong("You miscalculated the income.\nCorrect one is $558");
+            }
+
+            program.stop();
+
+            program = new TestedProgram();
+            program.start();
+
+            output = program.execute("1\n1");
+
+            if (!output.contains("$10")) {
+                return CheckResult.wrong("You miscalculated the income.\nCorrect one is $10");
+            }
+
+            program.stop();
+
+            program = new TestedProgram();
+            program.start();
+
+            output = program.execute("3\n3");
+
+            if (!output.contains("$90")) {
+                return CheckResult.wrong("You miscalculated the income.\nCorrect one is $90");
+            }
+
+            program.stop();
+
+            program = new TestedProgram();
+            program.start();
+
+            output = program.execute("8\n8");
+
+            if (!output.contains("$576")) {
+                return CheckResult.wrong("You miscalculated the income.\nCorrect one is $576");
+            }
+
+            return CheckResult.correct();
+        }
+    }
+  learner_created: false
+- name: src/cinema/Seat.java
+  visible: true
+  text: |
+    package cinema;
+
+    public class Seat {
+        private char status;
+
+        public Seat(char status) {
+            this.status = status;
+        }
+
+        public char getStatus() {
+            return status;
+        }
+    }
+  learner_created: true
+- name: src/cinema/CinemaService.java
+  visible: true
+  text: |
+    package cinema;
+
+    import java.util.List;
+
+    public class CinemaService {
+
+        public static void viewSeats(Cinema cinema) {
+            List<List<Seat>> seatList= cinema.getSeatList();
+            int row = seatList.size();
+            int col = seatList.get(0).size();
+
+            System.out.println(cinema.getName()+":");
+            for (int i = 0; i <= row; i++) {
+                for (int j = 0; j <= col; j++) {
+                    if (i == 0 && j == 0) {
+                        System.out.print("  ");
+                    } else if (i == 0) {
+                        System.out.print(j + " ");
+                    } else if (j == 0) {
+                        System.out.print(i + " ");
+                    } else {
+                        System.out.print(seatList.get(i - 1).get(j - 1).getStatus() + " ");
+                    }
+                }
+                System.out.println();
+            }
+        }
+    }
+  learner_created: true
+- name: src/cinema/PricingStrategy.java
+  visible: true
+  learner_created: true
+- name: src/cinema/CinemaSizeBasedPricingStrategy.java
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/projects/133/stages/710/implement#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sat, 08 Jan 2022 05:43:45 UTC
+record: 2
